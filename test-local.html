@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Local - AR Treasure Hunt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            text-align: center;
+            color: #FFD700;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #87CEEB;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .checklist {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .checklist h2 {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        .check-item {
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .warning {
+            background: rgba(255, 193, 7, 0.2);
+            border-left: 4px solid #FFC107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
+        }
+        .info-box {
+            background: rgba(33, 150, 243, 0.2);
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .marker-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .marker-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .marker-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .marker-card img {
+            width: 150px;
+            height: 150px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .marker-card a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Página de Test Local</h1>
+        <p class="subtitle">Búsqueda del Tesoro AR - Sacré Coeur</p>
+
+        <div class="warning">
+            <strong>⚠️ Importante:</strong> Esta página es solo para testing local. 
+            Para el juego en producción, accede a la URL desplegada en GitHub Pages, Azure, o Netlify.
+        </div>
+
+        <div class="checklist">
+            <h2>✅ Checklist Pre-Test</h2>
+            <div class="check-item">
+                ✓ Todos los archivos del proyecto están en su lugar
+            </div>
+            <div class="check-item">
+                ✓ Los marcadores están listos para imprimir
+            </div>
+            <div class="check-item">
+                ✓ Tu dispositivo tiene cámara funcional
+            </div>
+            <div class="check-item">
+                ✓ Estás usando un navegador moderno (Chrome, Safari, Firefox)
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>📌 Nota sobre HTTPS:</strong><br>
+            AR.js requiere HTTPS para acceder a la cámara. Si estás probando localmente:
+            <ul>
+                <li>Usa un servidor local con HTTPS (ej: <code>http-server -S</code>)</li>
+                <li>O despliega en un servicio con HTTPS automático (GitHub Pages, Netlify, etc.)</li>
+                <li><code>file://</code> NO funcionará por restricciones de seguridad</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="button">🎮 INICIAR JUEGO AR</a>
+
+        <div class="checklist">
+            <h2>📍 Marcadores para Imprimir</h2>
+            <p>Necesitas imprimir estos 3 marcadores antes de jugar:</p>
+            
+            <div class="marker-links">
+                <div class="marker-card">
+                    <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" alt="Marcador Hiro">
+                    <h3>Marcador 1: HIRO</h3>
+                    <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" target="_blank" download>Descargar →</a>
+                </div>
+                
+                <div class="marker-card">
+                    <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/kanji.png" alt="Marcador Kanji">
+                    <h3>Marcador 2: KANJI</h3>
+                    <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/kanji.png" target="_blank" download>Descargar →</a>
+                </div>
+                
+                <div class="marker-card">
+                    <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/letterA.png" alt="Marcador Letter A">
+                    <h3>Marcador 3: LETTER A</h3>
+                    <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/letterA.png" target="_blank" download>Descargar →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Tips de Testing:</strong>
+            <ol>
+                <li>Imprime los marcadores en papel blanco, tamaño 10x10 cm</li>
+                <li>Asegúrate de tener buena iluminación</li>
+                <li>Mantén la cámara a 20-50cm del marcador</li>
+                <li>Prueba en diferentes dispositivos si es posible</li>
+                <li>Verifica que el progreso se actualice correctamente</li>
+            </ol>
+        </div>
+
+        <div class="checklist">
+            <h2>📁 Estructura del Proyecto</h2>
+            <pre style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 5px; overflow-x: auto;">
+lab_ar/
+├── index.html              # Juego principal
+├── styles.css              # Estilos
+├── game.js                 # Lógica del juego
+├── README.md               # Documentación
+├── COMO_USAR.md            # Guía para beta testers
+├── INSTRUCCIONES_DEPLOYMENT.md  # Guía de deployment
+├── test-local.html         # Esta página
+├── .gitignore              # Archivos a ignorar en Git
+└── markers/
+    └── INFO_MARCADORES.md  # Info sobre marcadores
+            </pre>
+        </div>
+
+        <div class="warning">
+            <strong>🚀 Siguiente Paso:</strong><br>
+            Una vez que hayas probado localmente, despliega el juego usando una de estas opciones:
+            <ul>
+                <li><strong>GitHub Pages</strong> (más fácil y recomendado)</li>
+                <li><strong>Netlify</strong> (súper rápido)</li>
+                <li><strong>Azure Static Web Apps</strong> (profesional)</li>
+                <li><strong>Vercel</strong> (alternativa moderna)</li>
+            </ul>
+            Consulta <code>INSTRUCCIONES_DEPLOYMENT.md</code> para más detalles.
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.2);">
+            <p style="color: #87CEEB; font-style: italic;">
+                Proyecto de Laboratorio - Realidad Aumentada<br>
+                Edificio Sacré Coeur
+            </p>
+            <p style="color: #FFD700; font-size: 2em; margin-top: 20px;">
+                ¡Buena suerte en la búsqueda del tesoro! 🏆✨
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Verificar si estamos en HTTPS o localhost
+        window.addEventListener('load', function() {
+            const isSecure = window.location.protocol === 'https:' || 
+                           window.location.hostname === 'localhost' ||
+                           window.location.hostname === '127.0.0.1';
+            
+            if (!isSecure) {
+                const warning = document.createElement('div');
+                warning.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(244, 67, 54, 0.95);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+                    z-index: 10000;
+                    max-width: 500px;
+                    text-align: center;
+                `;
+                warning.innerHTML = `
+                    <strong>⚠️ Advertencia de Seguridad</strong><br>
+                    Esta página no está en HTTPS. El juego AR necesita HTTPS para acceder a la cámara.<br>
+                    <small>Despliega en GitHub Pages, Netlify, o usa un servidor local con SSL.</small>
+                `;
+                document.body.appendChild(warning);
+            }
+        });
+    </script>
+</body>
+</html>
+

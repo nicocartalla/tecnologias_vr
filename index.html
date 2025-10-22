@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda del Tesoro AR - Sacré Coeur</title>
+    <meta name="description" content="Juego de búsqueda del tesoro en Realidad Aumentada">
+    
+    <!-- AR.js y A-Frame -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Botón para minimizar/expandir panel -->
+    <button id="toggle-panel" class="toggle-panel-btn">▼</button>
+
+    <!-- Panel de información -->
+    <div id="info-panel" class="collapsed">
+        <div id="header">
+            <h1>🏆 Búsqueda del Tesoro AR</h1>
+            <p id="subtitle">Edificio Sacré Coeur</p>
+        </div>
+        
+        <div id="progress-container">
+            <h2>Progreso:</h2>
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <p id="progress-text">0 / 3 marcadores</p>
+        </div>
+        
+        <div id="markers-status">
+            <div class="marker-item" id="marker-hiro-status">
+                <span class="marker-icon">📍</span>
+                <span class="marker-name">Pista 1</span>
+                <span class="marker-status">❓</span>
+            </div>
+            <div class="marker-item" id="marker-kanji-status">
+                <span class="marker-icon">📍</span>
+                <span class="marker-name">Pista 2</span>
+                <span class="marker-status">❓</span>
+            </div>
+            <div class="marker-item" id="marker-pattern-status">
+                <span class="marker-icon">📍</span>
+                <span class="marker-name">Pista 3</span>
+                <span class="marker-status">❓</span>
+            </div>
+        </div>
+        
+        <div id="hint-box">
+            <h3>💡 Pista:</h3>
+            <p id="current-hint">Busca el primer marcador...</p>
+        </div>
+        
+        <div id="instructions">
+            <button id="toggle-instructions">ℹ️ Info</button>
+            <div id="instructions-content" style="display: none;">
+                <h3>📱 Cómo Jugar:</h3>
+                <ol>
+                    <li>Permite acceso a la cámara</li>
+                    <li>Apunta a los marcadores AR</li>
+                    <li>Encuentra los 3 marcadores</li>
+                    <li>Descubre el tesoro</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje de victoria -->
+    <div id="victory-modal" style="display: none;">
+        <div id="victory-content">
+            <button id="close-victory" class="close-modal-btn">✕</button>
+            <h1>🎉 ¡FELICITACIONES! 🎉</h1>
+            <h2>¡Has encontrado el tesoro!</h2>
+            <div id="treasure-animation">
+                <div class="treasure-icon">💎</div>
+                <div class="sparkle">✨</div>
+                <div class="sparkle">✨</div>
+                <div class="sparkle">✨</div>
+            </div>
+            <p class="victory-message">
+                Has completado la búsqueda del tesoro con éxito.<br>
+                ¡Excelente trabajo!
+            </p>
+            <button id="restart-button">🔄 Jugar de Nuevo</button>
+        </div>
+    </div>
+
+    <!-- Escena de A-Frame con AR.js -->
+    <a-scene
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true; precision: medium;"
+        loading-screen="enabled: false">
+        
+        <a-assets>
+            <!-- Aquí puedes agregar assets adicionales como modelos 3D, texturas, etc. -->
+            <audio id="sound-found" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
+            <audio id="sound-victory" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+        </a-assets>
+
+        <!-- Marcador 1: HIRO - El Comienzo -->
+        <a-marker preset="hiro" id="marker-hiro" emitevents="true" smooth="true">
+            <!-- Texto de bienvenida - MÁS ALTO Y MÁS GRANDE -->
+            <a-text 
+                value="Pista 1:\nEn el corazon del edificio,\ndonde los libros descansan,\nencontraras la siguiente pista."
+                position="0 1.2 0"
+                align="center"
+                color="#FFD700"
+                width="2.5"
+                rotation="-90 0 0">
+            </a-text>
+            
+            <!-- Libro 3D - MÁS PEQUEÑO Y MÁS ABAJO -->
+            <a-box 
+                position="0 0.05 0"
+                rotation="0 45 0"
+                color="#8B4513"
+                width="0.15"
+                height="0.03"
+                depth="0.2"
+                animation="property: rotation; to: 0 405 0; loop: true; dur: 4000; easing: linear">
+            </a-box>
+            
+            <!-- Indicador visual - EN EL SUELO -->
+            <a-ring
+                position="0 0 0"
+                radius-inner="0.3"
+                radius-outer="0.35"
+                color="#00FF00"
+                opacity="0.3"
+                rotation="-90 0 0"
+                animation="property: scale; to: 1.2 1.2 1.2; loop: true; dur: 1000; dir: alternate; easing: easeInOutQuad">
+            </a-ring>
+        </a-marker>
+
+        <!-- Marcador 2: Barcode (alternativa a KANJI) - El Guardián -->
+        <a-marker type="barcode" value="1" id="marker-kanji" emitevents="true" smooth="true">
+            <!-- Texto - MÁS ALTO Y MÁS GRANDE -->
+            <a-text 
+                value="Pista 2:\nEl guardian del conocimiento\nte senala el camino.\nBusca donde el arte se encuentra."
+                position="0 1.2 0"
+                align="center"
+                color="#FF69B4"
+                width="2.5"
+                rotation="-90 0 0">
+            </a-text>
+            
+            <!-- Esfera brillante - MÁS PEQUEÑA Y MÁS ABAJO -->
+            <a-sphere 
+                position="0 0.15 0"
+                radius="0.08"
+                color="#4169E1"
+                opacity="0.6"
+                animation="property: position; to: 0 0.25 0; loop: true; dur: 2000; dir: alternate; easing: easeInOutSine">
+                <a-sphere
+                    radius="0.1"
+                    color="#87CEEB"
+                    opacity="0.2"
+                    animation="property: scale; to: 1.5 1.5 1.5; loop: true; dur: 1500; dir: alternate; easing: easeInOutQuad">
+                </a-sphere>
+            </a-sphere>
+            
+            <!-- Flechas - MÁS PEQUEÑAS -->
+            <a-cone
+                position="0.2 0.1 0"
+                rotation="0 0 -90"
+                radius-bottom="0.05"
+                radius-top="0"
+                height="0.15"
+                color="#FFD700"
+                opacity="0.6"
+                animation="property: rotation; to: 0 0 -90; from: 0 0 -110; loop: true; dur: 800; dir: alternate; easing: easeInOutQuad">
+            </a-cone>
+        </a-marker>
+
+        <!-- Marcador 3: Barcode (alternativa a Pattern) - El Secreto -->
+        <a-marker type="barcode" value="2" id="marker-pattern" emitevents="true" smooth="true">
+            <!-- Texto - MÁS ALTO Y MÁS GRANDE -->
+            <a-text 
+                value="Pista 3:\nEl tesoro esta cerca.\nMira hacia el cielo,\ndonde las estrellas brillan."
+                position="0 1.2 0"
+                align="center"
+                color="#00FFFF"
+                width="2.5"
+                rotation="-90 0 0">
+            </a-text>
+            
+            <!-- Cofre del tesoro - MÁS PEQUEÑO Y MÁS ABAJO -->
+            <a-box 
+                position="0 0.08 0"
+                rotation="0 0 0"
+                color="#DAA520"
+                width="0.2"
+                height="0.15"
+                depth="0.15">
+                <!-- Tapa del cofre -->
+                <a-box
+                    position="0 0.08 -0.05"
+                    rotation="-45 0 0"
+                    color="#B8860B"
+                    width="0.2"
+                    height="0.03"
+                    depth="0.15"
+                    animation="property: rotation; to: 0 0 0; loop: true; dur: 2000; dir: alternate; easing: easeInOutQuad">
+                </a-box>
+            </a-box>
+            
+            <!-- Estrellas - MÁS PEQUEÑAS Y MÁS SEPARADAS -->
+            <a-octahedron
+                position="0.4 0.3 0"
+                radius="0.04"
+                color="#FFFF00"
+                opacity="0.7"
+                animation="property: rotation; to: 360 360 0; loop: true; dur: 3000; easing: linear">
+            </a-octahedron>
+            <a-octahedron
+                position="-0.4 0.3 0"
+                radius="0.04"
+                color="#FFFF00"
+                opacity="0.7"
+                animation="property: rotation; to: -360 -360 0; loop: true; dur: 3000; easing: linear">
+            </a-octahedron>
+        </a-marker>
+
+        <!-- Cámara -->
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script src="game.js"></script>
+</body>
+</html>
+

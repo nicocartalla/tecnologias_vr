@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargar Marcadores AR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .markers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .marker-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .marker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+        
+        .marker-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .marker-image-container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+        }
+        
+        .marker-image {
+            max-width: 100%;
+            max-height: 250px;
+            background: white;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .download-btn.secondary {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status.complete {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .instructions {
+            background: #e7f3ff;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+        
+        .instructions h2 {
+            color: #2196F3;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        
+        .print-specs {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .print-specs h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .print-specs ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📍 Descarga de Marcadores AR</h1>
+        <p class="subtitle">Búsqueda del Tesoro - Sacré Coeur</p>
+        
+        <div class="warning">
+            <strong>⚠️ Importante:</strong> Necesitas descargar e imprimir estos 3 marcadores para que el juego funcione. 
+            Los jugadores escanearán estos marcadores con sus celulares para descubrir las pistas del tesoro.
+        </div>
+        
+        <div class="markers-grid">
+            <!-- Marcador 1: HIRO -->
+            <div class="marker-card">
+                <h3>📍 Marcador 1: HIRO</h3>
+                <p><strong>"El Comienzo"</strong></p>
+                
+                <div class="marker-image-container">
+                    <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" 
+                         alt="Marcador Hiro" 
+                         class="marker-image"
+                         crossorigin="anonymous">
+                </div>
+                
+                <div class="button-group">
+                    <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" 
+                       download="hiro-marcador.png" 
+                       class="download-btn">
+                        ⬇️ Descargar
+                    </a>
+                    <button onclick="window.open('https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png', '_blank')" 
+                            class="download-btn secondary">
+                        👁️ Ver Original
+                    </button>
+                </div>
+                
+                <div class="status complete">
+                    ✅ Marcador disponible
+                </div>
+                
+                <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
+                    <strong>Pista:</strong> En el corazón del edificio, donde los libros descansan...
+                </p>
+            </div>
+            
+            <!-- Marcador 2: KANJI -->
+            <div class="marker-card">
+                <h3>📍 Marcador 2: KANJI</h3>
+                <p><strong>"El Guardián"</strong></p>
+                
+                <div class="marker-image-container">
+                    <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/kanji.png" 
+                         alt="Marcador Kanji" 
+                         class="marker-image"
+                         crossorigin="anonymous"
+                         onerror="this.src='https://via.placeholder.com/200x200?text=Kanji+Marker'; this.style.border='2px solid red';">
+                </div>
+                
+                <div class="button-group">
+                    <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/kanji.png" 
+                       download="kanji-marcador.png" 
+                       class="download-btn">
+                        ⬇️ Descargar
+                    </a>
+                    <button onclick="window.open('https://github.com/AR-js-org/AR.js/blob/master/data/images/kanji.png?raw=true', '_blank')" 
+                            class="download-btn secondary">
+                        👁️ Ver Original
+                    </button>
+                </div>
+                
+                <div class="status pending">
+                    ⚠️ Si no se ve, descarga desde el botón
+                </div>
+                
+                <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
+                    <strong>Pista:</strong> El guardián del conocimiento te señala el camino...
+                </p>
+            </div>
+            
+            <!-- Marcador 3: LETTER A -->
+            <div class="marker-card">
+                <h3>📍 Marcador 3: LETTER A</h3>
+                <p><strong>"El Secreto"</strong></p>
+                
+                <div class="marker-image-container">
+                    <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/letterA.png" 
+                         alt="Marcador Letter A" 
+                         class="marker-image"
+                         crossorigin="anonymous"
+                         onerror="this.src='https://via.placeholder.com/200x200?text=Letter+A+Marker'; this.style.border='2px solid red';">
+                </div>
+                
+                <div class="button-group">
+                    <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/letterA.png" 
+                       download="letterA-marcador.png" 
+                       class="download-btn">
+                        ⬇️ Descargar
+                    </a>
+                    <button onclick="window.open('https://github.com/AR-js-org/AR.js/blob/master/data/images/letterA.png?raw=true', '_blank')" 
+                            class="download-btn secondary">
+                        👁️ Ver Original
+                    </button>
+                </div>
+                
+                <div class="status pending">
+                    ⚠️ Si no se ve, descarga desde el botón
+                </div>
+                
+                <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
+                    <strong>Pista:</strong> El tesoro está cerca. Mira hacia el cielo...
+                </p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>📥 Método Alternativo de Descarga</h2>
+            <p>Si los botones de descarga no funcionan:</p>
+            <ol>
+                <li>Haz <strong>click derecho</strong> sobre cada imagen de arriba</li>
+                <li>Selecciona <strong>"Guardar imagen como..."</strong></li>
+                <li>Guarda con los nombres: <code>hiro.png</code>, <code>kanji.png</code>, <code>letterA.png</code></li>
+                <li>O visita el repositorio oficial: <a href="https://github.com/AR-js-org/AR.js/tree/master/data/images" target="_blank">AR.js GitHub</a></li>
+            </ol>
+        </div>
+        
+        <div class="print-specs">
+            <h3>🖨️ Especificaciones de Impresión</h3>
+            <ul>
+                <li><strong>Tamaño recomendado:</strong> 10 x 10 cm (cada marcador)</li>
+                <li><strong>Tamaño mínimo:</strong> 7 x 7 cm</li>
+                <li><strong>Tamaño máximo:</strong> 15 x 15 cm</li>
+                <li><strong>Calidad:</strong> Alta resolución / 300 DPI</li>
+                <li><strong>Papel:</strong> Blanco mate (NO brilloso)</li>
+                <li><strong>Color:</strong> Blanco y negro / Escala de grises</li>
+                <li><strong>Gramaje:</strong> 80g o superior</li>
+            </ul>
+        </div>
+        
+        <div class="instructions">
+            <h2>📍 Dónde Colocar los Marcadores</h2>
+            <ol>
+                <li><strong>Marcador HIRO:</strong> Entrada principal, recepción o hall central</li>
+                <li><strong>Marcador KANJI:</strong> Biblioteca, sala de estudio o pasillo académico</li>
+                <li><strong>Marcador LETTER A:</strong> Sala de arte, azotea o zona con vista al cielo</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>Tip:</strong> Pega los marcadores en lugares visibles y con buena iluminación.</p>
+        </div>
+        
+        <div class="success">
+            <strong>✅ Siguiente Paso:</strong> Una vez que hayas descargado e impreso los marcadores, 
+            estás listo para desplegar el juego y compartirlo con los beta testers (Bruno, Maxi y Gonzalo).
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="download-btn" style="font-size: 1.2em;">
+                🎮 Ir al Juego AR
+            </a>
+            <a href="test-local.html" class="download-btn secondary" style="font-size: 1.2em;">
+                🧪 Página de Testing
+            </a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid #e0e0e0; color: #666;">
+            <p><strong>¿Necesitas ayuda?</strong></p>
+            <p>Consulta <code>markers/DESCARGAR_MARCADORES.md</code> para instrucciones detalladas</p>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                Proyecto: Búsqueda del Tesoro AR - Edificio Sacré Coeur<br>
+                Tecnología: AR.js + A-Frame
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Verificar que las imágenes se carguen correctamente
+        window.addEventListener('load', function() {
+            const images = document.querySelectorAll('.marker-image');
+            images.forEach((img, index) => {
+                img.addEventListener('load', function() {
+                    console.log(`Marcador ${index + 1} cargado correctamente`);
+                    const statusDiv = img.closest('.marker-card').querySelector('.status');
+                    if (statusDiv && statusDiv.classList.contains('pending')) {
+                        statusDiv.classList.remove('pending');
+                        statusDiv.classList.add('complete');
+                        statusDiv.innerHTML = '✅ Marcador cargado';
+                    }
+                });
+                
+                img.addEventListener('error', function() {
+                    console.error(`Error al cargar marcador ${index + 1}`);
+                    const statusDiv = img.closest('.marker-card').querySelector('.status');
+                    if (statusDiv) {
+                        statusDiv.style.background = '#f8d7da';
+                        statusDiv.style.color = '#721c24';
+                        statusDiv.innerHTML = '❌ Error al cargar. Usa el botón "Ver Original"';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
